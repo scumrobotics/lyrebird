@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Dean Pisani"]
   spec.email         = ["dpisani93@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Functional testing helpers for Arduino sketches}
+  spec.description   = %q{Lyrebird helps test Arduino sketches by programming actual Arduino devices and mimicking I/O sequences using a 2-board system.}
+  spec.homepage      = "https://github.com/scumrobotics/lyrebird"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
