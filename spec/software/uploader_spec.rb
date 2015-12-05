@@ -39,27 +39,54 @@ describe Lyrebird::Uploader do
     context 'when current tool is not recognised' do
       it 'raises an ArgumentError' do
         @uploader.current_tool = :hammer
-        expect{@uploader.upload_sketch('spec/sketches/blink/blink.ino', master_board)}.to raise_error ArgumentError
+        expect{@uploader.upload_sketch(sketch_path('blink'), master_board)}.to raise_error ArgumentError
       end
     end
 
     context 'when board is not recognised' do
       it 'raises an ArgumentError' do
         @uploader.board = :cheese
-        expect{@uploader.upload_sketch('spec/sketches/blink/blink.ino', master_board)}.to raise_error ArgumentError
+        expect{@uploader.upload_sketch(sketch_path('blink'), master_board)}.to raise_error ArgumentError
       end
     end
 
     context 'when sketch cannot be found' do
       it 'raises an ArgumentError' do
-        expect{@uploader.upload_sketch('spec/sketches/no_such_sketch.ino', master_board)}.to raise_error ArgumentError
+        expect{@uploader.upload_sketch(sketch_path('no_such_sketch'), master_board)}.to raise_error ArgumentError
       end
     end
 
     context 'when sketch fails to upload' do
       #make it fail by trying to program a non-existent board
       it 'raises a SketchFailError' do
-        expect{@uploader.upload_sketch('spec/sketches/blink/blink.ino', '/dev/no_such_device')}.to raise_error Lyrebird::SketchFailError
+        expect{@uploader.upload_sketch(sketch_path('blink'), '/dev/no_such_device')}.to raise_error Lyrebird::SketchFailError
+      end
+    end
+  end
+
+  describe '#verified?' do
+    context 'when sketch cannot be found' do
+      it 'raises an ArgumentError' do
+        expect{@uploader.verified? sketch_path('no_such_sketch')}.to raise_error ArgumentError
+      end
+    end
+
+    context 'when current tool is not recognised' do
+      it 'raises an ArgumentError' do
+        @uploader.current_tool = :hammer
+        expect{@uploader.verified? sketch_path('blink')}.to raise_error ArgumentError
+      end
+    end
+
+    context 'when checking a valid sketch' do
+      it 'returns true' do
+        expect(@uploader.verified? sketch_path('blink')).to be true
+      end
+    end
+
+    context 'when checking an invalid sketch' do
+      it 'returns false' do
+        expect(@uploader.verified? sketch_path('invalid')).to be false
       end
     end
   end
