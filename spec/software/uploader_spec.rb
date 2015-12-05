@@ -35,18 +35,31 @@ describe Lyrebird::Uploader do
     end
   end
 
-  describe '#program_sketch' do
+  describe '#upload_sketch' do
     context 'when current tool is not recognised' do
-      it 'throws an exception' do
+      it 'raises an ArgumentError' do
         @uploader.current_tool = :hammer
-        expect{@uploader.program_sketch('/dev/ttyAMC0', 'sketches/blink.ino')}.to raise_error ArgumentError
+        expect{@uploader.upload_sketch('spec/sketches/blink/blink.ino', master_board)}.to raise_error ArgumentError
       end
     end
 
     context 'when board is not recognised' do
-      it 'throws an exception' do
+      it 'raises an ArgumentError' do
         @uploader.board = :cheese
-        expect{@uploader.program_sketch('/dev/ttyAMC0', 'sketches/blink.ino')}.to raise_error ArgumentError
+        expect{@uploader.upload_sketch('spec/sketches/blink/blink.ino', master_board)}.to raise_error ArgumentError
+      end
+    end
+
+    context 'when sketch cannot be found' do
+      it 'raises an ArgumentError' do
+        expect{@uploader.upload_sketch('spec/sketches/no_such_sketch.ino', master_board)}.to raise_error ArgumentError
+      end
+    end
+
+    context 'when sketch fails to upload' do
+      #make it fail by trying to program a non-existent board
+      it 'raises a SketchFailError' do
+        expect{@uploader.upload_sketch('spec/sketches/blink/blink.ino', '/dev/no_such_device')}.to raise_error Lyrebird::SketchFailError
       end
     end
   end
