@@ -5,7 +5,7 @@ module Lyrebird
   class SketchFailError < StandardError; end
 
   class Uploader
-
+    attr_accessor :port
     attr_writer :current_tool, :board
 
     def current_tool
@@ -24,7 +24,7 @@ module Lyrebird
       :uno
     end
 
-    def upload_sketch(path, port)
+    def upload_sketch(path)
       sketch = Pathname.new(path)
       check_arguments(sketch)
 
@@ -56,6 +56,7 @@ module Lyrebird
     def check_arguments(sketch)
       raise ArgumentError, "Bad configuration" unless valid_configuration?
       raise ArgumentError, "Sketch not found" unless sketch.exist?
+      raise ArgumentError, "Port not set" if port.nil? or port.empty?
     end
 
     def run_tool(command)
