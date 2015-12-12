@@ -9,7 +9,7 @@ describe Lyrebird::Uploader do
   describe '#upload_sketch' do
     context 'when sketch successfully uploads' do
       it 'doesnt raise an error' do
-        expect{@uploader.upload_sketch('spec/sketches/blink/blink.ino')}.to_not raise_error
+        expect{@uploader.upload_sketch(sketch_path('blink'))}.to_not raise_error
       end
     end
   end
