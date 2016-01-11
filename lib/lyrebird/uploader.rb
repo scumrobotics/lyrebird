@@ -2,11 +2,15 @@ require 'pathname'
 require 'open3'
 
 module Lyrebird
-  class SketchFailError < StandardError; end
+  class SketchFailError < LyrebirdError; end
 
   class Uploader
     attr_accessor :port
     attr_writer :current_tool, :board
+
+    def initialize(port = nil)
+      @port = port
+    end
 
     def current_tool
       @current_tool || default_tool
